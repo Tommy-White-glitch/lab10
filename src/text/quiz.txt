@@ -1,0 +1,50 @@
+What is the capital of Canada?|Ottawa
+What is 2 + 2?|4
+What is the color of the sky on a clear day?|Blue
+Name a programming language starting with J?|Java
+What is the largest planet in our solar system?|Jupiter
+What is the chemical symbol for water?|H2O
+Who wrote Hamlet?|Shakespeare
+What is 5 x 6?|30
+What is the freezing point of water in Celsius?|0
+What is the largest ocean on Earth?|Pacific
+What is 10 / 2?|5
+What is 9 + 1?|10
+What color are bananas?|Yellow
+What is the square root of 16?|4
+Who painted the Mona Lisa?|Da Vinci
+What is the capital of France?|Paris
+What gas do humans breathe in?|Oxygen
+What is 7 x 8?|56
+What is the tallest animal?|Giraffe
+What is the smallest prime number?|2
+What is 3^2?|9
+What is the capital of Japan?|Tokyo
+What is 100 - 45?|55
+What is the boiling point of water?|100
+Who discovered gravity?|Newton
+What is the capital of Italy?|Rome
+What is 6 x 6?|36
+What is the largest continent?|Asia
+What is 8 + 12?|20
+What is the fastest land animal?|Cheetah
+What is 15 / 3?|5
+What color is grass?|Green
+What is 11 + 11?|22
+What is the capital of Germany?|Berlin
+What is 20 x 2?|40
+What is the hardest natural substance?|Diamond
+What is 14 - 7?|7
+What is the capital of Spain?|Madrid
+What is 9 x 9?|81
+What is the currency of USA?|Dollar
+What is 18 / 2?|9
+What is 25 + 25?|50
+What is the largest mammal?|Blue Whale
+What is 13 + 7?|20
+What is the capital of China?|Beijing
+What is 4 x 4?|16
+What is 30 - 10?|20
+What is 2^3?|8
+What is the capital of India?|New Delhi
+What is 5 x 5?|25
