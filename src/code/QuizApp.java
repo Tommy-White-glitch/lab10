@@ -7,30 +7,50 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.*;
 
+/**
+ * A simple JavaFX Quiz Application.
+ * This application loads questions from a text file, randomly selects a subset,
+ * and allows the user to answer them while tracking their score.
+ *
+ * @author Tommy White
+ * @author Umanga Bajgai
+ *
+ * @version 1.0
+ */
 public class QuizApp extends Application
 {
+    private static final Path QUIZ_FILE_PATH = Path.of("src/text/quiz.txt");
+    private static final int QUIZ_SIZE = 10;
+    private static final int WINDOW_WIDTH = 400;
+    private static final int WINDOW_HEIGHT = 300;
+    private static final int VBOX_SPACING = 10;
+    private static final int INITIAL_SCORE = 0;
+
     private List<Question> allQuestions;
     private List<Question> quizQuestions;
-
     private int currentIndex;
     private int score;
-
     private Label questionLabel;
     private Label scoreLabel;
     private TextField answerField;
     private Button submitButton;
     private Button startButton;
 
+    /**
+     * Starts the JavaFX application.
+     *
+     * @param stage the primary stage
+     */
     @Override
-    public void start(Stage stage)
+    public void start(final Stage stage)
     {
         loadQuestions();
 
         questionLabel = new Label("Press Start to begin!");
-        scoreLabel = new Label("Score: 0");
+        scoreLabel = new Label("Score: " + INITIAL_SCORE);
 
         answerField = new TextField();
         answerField.setPromptText("Enter your answer");
@@ -41,18 +61,27 @@ public class QuizApp extends Application
 
         startButton = new Button("Start Quiz");
 
-        // Button click
         submitButton.setOnAction(e -> checkAnswer());
-
-        // ENTER key
         answerField.setOnAction(e -> checkAnswer());
-
         startButton.setOnAction(e -> startQuiz());
 
-        VBox root = new VBox(10, questionLabel, answerField, submitButton, scoreLabel, startButton);
+        final VBox root;
+
+        root = new VBox(VBOX_SPACING,
+                        questionLabel,
+                        answerField,
+                        submitButton,
+                        scoreLabel,
+                        startButton);
+
         root.setAlignment(Pos.CENTER);
 
-        Scene scene = new Scene(root, 400, 300);
+        final Scene scene;
+
+        scene = new Scene(root,
+                          WINDOW_WIDTH,
+                          WINDOW_HEIGHT);
+
         scene.getStylesheets().add("styles.css");
 
         stage.setTitle("Quiz App");
@@ -60,38 +89,46 @@ public class QuizApp extends Application
         stage.show();
     }
 
+    /*
+     * Loads questions from the quiz file.
+     */
     private void loadQuestions()
     {
         allQuestions = new ArrayList<>();
 
         try
         {
-            List<String> lines = Files.readAllLines(Paths.get("quiz.txt"));
+            final List<String> lines;
 
-            for (String line : lines)
+            lines = Files.readAllLines(QUIZ_FILE_PATH);
+
+            for (final String line : lines)
             {
-                String[] parts = line.split("\\|");
+                final String[] parts = line.split("\\|");
                 if (parts.length == 2)
                 {
                     allQuestions.add(new Question(parts[0], parts[1]));
                 }
             }
         }
-        catch (IOException e)
+        catch (final IOException e)
         {
             e.printStackTrace();
         }
     }
 
+    /*
+     * Starts a new quiz.
+     */
     private void startQuiz()
     {
         Collections.shuffle(allQuestions);
-        quizQuestions = allQuestions.subList(0, 10);
+        quizQuestions = allQuestions.subList(0, QUIZ_SIZE);
 
         currentIndex = 0;
-        score = 0;
+        score = INITIAL_SCORE;
 
-        scoreLabel.setText("Score: 0");
+        scoreLabel.setText("Score: " + INITIAL_SCORE);
 
         answerField.setDisable(false);
         submitButton.setDisable(false);
@@ -100,11 +137,15 @@ public class QuizApp extends Application
         showQuestion();
     }
 
+    /*
+     * Displays the current question.
+     */
     private void showQuestion()
     {
         if (currentIndex < quizQuestions.size())
         {
-            questionLabel.setText(quizQuestions.get(currentIndex).getQuestion());
+            final Question currentQuestion = quizQuestions.get(currentIndex);
+            questionLabel.setText(currentQuestion.getQuestion());
             answerField.clear();
         }
         else
@@ -113,13 +154,18 @@ public class QuizApp extends Application
         }
     }
 
+    /*
+     * Checks the user's answer against the correct answer.
+     */
     private void checkAnswer()
     {
-        String userAnswer = answerField.getText().trim();
+        final String userAnswer;
+        final Question currentQuestion;
 
-        Question current = quizQuestions.get(currentIndex);
+        userAnswer = answerField.getText().trim();
+        currentQuestion = quizQuestions.get(currentIndex);
 
-        if (userAnswer.equalsIgnoreCase(current.getAnswer()))
+        if (userAnswer.equalsIgnoreCase(currentQuestion.getAnswer()))
         {
             score++;
         }
@@ -130,40 +176,66 @@ public class QuizApp extends Application
         showQuestion();
     }
 
+    /*
+     * Ends the quiz and displays the final score.
+     */
     private void endQuiz()
     {
-        questionLabel.setText("Quiz Finished! Final Score: " + score + "/10");
+        questionLabel.setText("Quiz Finished! Final Score: " + score +
+                              "/" + QUIZ_SIZE);
 
         answerField.setDisable(true);
         submitButton.setDisable(true);
         startButton.setDisable(false);
     }
 
-    public static void main(String[] args)
+    /**
+     * Main method to launch the application.
+     *
+     * @param args command-line arguments
+     */
+    public static void main(final String[] args)
     {
         launch(args);
     }
 }
 
 /**
- * Question class
+ * Represents a quiz question and its answer.
  */
 class Question
 {
     private final String question;
     private final String answer;
 
-    public Question(String question, String answer)
+    /**
+     * Constructs a Question.
+     *
+     * @param question the question text
+     * @param answer   the correct answer
+     */
+    public Question(final String question,
+                    final String answer)
     {
         this.question = question;
         this.answer = answer;
     }
 
+    /**
+     * Gets the question text.
+     *
+     * @return the question
+     */
     public String getQuestion()
     {
         return question;
     }
 
+    /**
+     * Gets the correct answer.
+     *
+     * @return the answer
+     */
     public String getAnswer()
     {
         return answer;
