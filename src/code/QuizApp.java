@@ -22,12 +22,16 @@ import java.util.*;
  */
 public class QuizApp extends Application
 {
-    private static final Path QUIZ_FILE_PATH = Path.of("src/text/quiz.txt");
+    private static final Path QUIZ_FILE_PATH = Path.of("src", "text", "quiz.txt");
     private static final int QUIZ_SIZE = 10;
     private static final int WINDOW_WIDTH = 400;
     private static final int WINDOW_HEIGHT = 300;
     private static final int VBOX_SPACING = 10;
     private static final int INITIAL_SCORE = 0;
+    private static final int PARTS_REQUIRED_LENGTH = 2;
+    private static final int QUIZ_STARTING_INDEX = 0;
+    private static final int QUESTION_INDEX_POS = 0;
+    private static final int ANSWER_INDEX_POS = 1;
 
     private List<Question> allQuestions;
     private List<Question> quizQuestions;
@@ -42,7 +46,7 @@ public class QuizApp extends Application
     /**
      * Starts the JavaFX application.
      *
-     * @param stage the primary stage
+     * @param stage is the primary stage.
      */
     @Override
     public void start(final Stage stage)
@@ -105,9 +109,9 @@ public class QuizApp extends Application
             for (final String line : lines)
             {
                 final String[] parts = line.split("\\|");
-                if (parts.length == 2)
+                if (parts.length == PARTS_REQUIRED_LENGTH)
                 {
-                    allQuestions.add(new Question(parts[0], parts[1]));
+                    allQuestions.add(new Question(parts[QUESTION_INDEX_POS], parts[ANSWER_INDEX_POS]));
                 }
             }
         }
@@ -123,7 +127,7 @@ public class QuizApp extends Application
     private void startQuiz()
     {
         Collections.shuffle(allQuestions);
-        quizQuestions = allQuestions.subList(0, QUIZ_SIZE);
+        quizQuestions = allQuestions.subList(QUIZ_STARTING_INDEX,QUIZ_SIZE);
 
         currentIndex = 0;
         score = INITIAL_SCORE;
@@ -217,6 +221,7 @@ class Question
     public Question(final String question,
                     final String answer)
     {
+
         this.question = question;
         this.answer = answer;
     }
@@ -224,7 +229,7 @@ class Question
     /**
      * Gets the question text.
      *
-     * @return the question
+     * @return the question.
      */
     public String getQuestion()
     {
@@ -234,7 +239,7 @@ class Question
     /**
      * Gets the correct answer.
      *
-     * @return the answer
+     * @return answer to the question.
      */
     public String getAnswer()
     {
